@@ -1,62 +1,42 @@
 public abstract class AgenteIA {
+
     protected String nome;
     protected String status;
 
-    public AgenteIA(String nome){
-        this.nome=nome;
+    public AgenteIA(String nome) {
+        this.nome = nome;
     }
 
+    public abstract void processarRequisicao(String input)//tive q colocar isso pq tava dando erro, mas n sei se é isso mesmo
+    throws FalhaProcessamentoAgenteException,
+           PromptInadequadoException,
+           ErroComunicacaoIAException;
 
-    public abstract void processarRequisicao(String input) throws FalhaProcessamentoAgenteException, PromptInadequadoException, ErroComunicacaoIAException;
-
-
-    public void conectarServidor()throws ErroComunicacaoIAException{
-        if (Math.random() > 0.7) { // 30% de chance de falha
-            throw new ErroComunicacaoIAException("Falha na conexão com o cluster de GPUs (Timeout).");
+    
+    public void conectarServidor() {
+        try {
+            if (Math.random() > 0.7) { // 30% de chance de falha
+                throw new Exception("Falha na conexão com o servidor.");
+            }
+            System.out.println("Servidor conectado com sucesso");
+        } catch (Exception e) {
+            System.out.println("Erro de conexão" + e.getMessage());
         }
-        System.out.println("Servidor conectado");
-
     }
 
-    // Método principal removido para implementaçao nas filhas
-   /* public void processarPrompt(String prompt) throws 
-            FalhaProcessamentoAgenteException, 
-            PromptInadequadoException, 
-            ErroComunicacaoIAException {
-        
-        // Validação básica (Enunciado original)
+    public void verificarSeguranca(String prompt) {
         if (prompt == null || prompt.isEmpty()) {
-            throw new FalhaProcessamentoAgenteException("O prompt não pode estar vazio.");
-        }
-        if (prompt.length() > 100) {
-            throw new FalhaProcessamentoAgenteException("Prompt muito longo para o modelo atual.");
+            System.out.println("vazio!");
+            return;
         }
 
-        // Exercício 1: Filtro de Segurança
-        verificarSeguranca(prompt);
-
-        // Exercício 2: Simulação de Timeout
-        chamarModeloExterno();
-
-        System.out.println("🚀 Agente finalizou processamento com sucesso: " + prompt);
-    } */
-
-    // Método auxiliar de segurança (Exercício 1)
-    public void verificarSeguranca(String prompt) throws PromptInadequadoException {
         String p = prompt.toLowerCase();
         if (p.contains("hackear") || p.contains("roubar")) {
-            throw new PromptInadequadoException("Intenção maliciosa detectada pelo Safety Guard.");
+            System.out.println("bloqueado.");
         }
     }
 
-    // Método de simulação de API (Exercício 2)
-    private void chamarModeloExterno() throws ErroComunicacaoIAException {
-        if (Math.random() > 0.7) { // 30% de chance de falha
-            throw new ErroComunicacaoIAException("Falha na conexão com o cluster de GPUs (Timeout).");
-        }
-    }
-
-    public String getNome(){
+    public String getNome() {
         return this.nome;
     }
 }
