@@ -1,0 +1,7 @@
+com\example\demo\DemoApplication.class
+com\example\demo\controller\PedidoController.class
+com\example\demo\model\Pedido.class
+com\example\demo\model\Cliente.class
+com\example\demo\controller\ClienteController.class
+com\example\demo\dao\PedidoDAO.class
+com\example\demo\dao\ClienteDAO.class
